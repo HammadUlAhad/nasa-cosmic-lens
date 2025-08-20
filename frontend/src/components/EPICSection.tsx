@@ -164,19 +164,19 @@ export default function EPICSection() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
+        className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg"
       >
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
           EPIC Earth Images
         </h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
+        <p className="text-gray-600 dark:text-gray-400 mb-4 sm:mb-6 text-sm sm:text-base">
           Stunning full-disc images of Earth captured by NASA&apos;s EPIC camera aboard the DSCOVR satellite.
         </p>
 
         {/* Date and Type Selection */}
-        <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex-1">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Select Date
               </label>
@@ -186,17 +186,17 @@ export default function EPICSection() {
                 onChange={(e) => handleDateChange(e.target.value)}
                 max={new Date().toISOString().split('T')[0]}
                 min="2015-06-13" // EPIC first light
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
             </div>
-            <div>
+            <div className="flex-1">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Image Type
               </label>
               <div className="flex space-x-2">
                 <button
                   onClick={() => setImageType('natural')}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
+                  className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
                     imageType === 'natural' 
                       ? 'bg-green-500 text-white' 
                       : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
@@ -206,7 +206,7 @@ export default function EPICSection() {
                 </button>
                 <button
                   onClick={() => setImageType('enhanced')}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
+                  className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
                     imageType === 'enhanced' 
                       ? 'bg-purple-500 text-white' 
                       : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
@@ -216,39 +216,40 @@ export default function EPICSection() {
                 </button>
               </div>
             </div>
-            <div className="text-center">
-              <button
-                onClick={() => handleDateChange('')}
-                className="px-4 py-2 text-blue-600 dark:text-blue-400 border border-blue-300 dark:border-blue-600 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
-              >
-                Latest Images
-              </button>
-            </div>
           </div>
+          
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <button
+              onClick={() => handleDateChange('')}
+              className="w-full sm:w-auto px-4 py-2 text-blue-600 dark:text-blue-400 border border-blue-300 dark:border-blue-600 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+            >
+              Latest Images
+            </button>
 
-          {images.length > 0 && (
-            <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                {currentIndex + 1} of {images.length} images
+            {images.length > 0 && (
+              <div className="flex items-center space-x-4">
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  {currentIndex + 1} of {images.length} images
+                </div>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={prevImage}
+                    disabled={images.length <= 1}
+                    className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    ←
+                  </button>
+                  <button
+                    onClick={nextImage}
+                    disabled={images.length <= 1}
+                    className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    →
+                  </button>
+                </div>
               </div>
-              <div className="flex space-x-2">
-                <button
-                  onClick={prevImage}
-                  disabled={images.length <= 1}
-                  className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  ←
-                </button>
-                <button
-                  onClick={nextImage}
-                  disabled={images.length <= 1}
-                  className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  →
-                </button>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {/* Stats */}
@@ -303,38 +304,38 @@ export default function EPICSection() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
-          className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
+          className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg"
         >
           <div className="text-center">
-            <div className="relative inline-block">
+            <div className="relative inline-block w-full max-w-2xl">
               <Image
                 src={getImageUrl(currentImage)}
                 alt={currentImage.caption || `EPIC Earth image from ${currentImage.date}`}
                 width={600}
                 height={600}
-                className="max-w-full h-auto rounded-lg shadow-lg cursor-pointer transition-transform hover:scale-105"
+                className="w-full h-auto rounded-lg shadow-lg cursor-pointer transition-transform hover:scale-105"
                 onClick={() => setSelectedImage(currentImage)}
                 priority
               />
               <button
                 onClick={() => setSelectedImage(currentImage)}
-                className="absolute top-4 right-4 p-2 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-75 transition-opacity"
+                className="absolute top-2 right-2 sm:top-4 sm:right-4 p-2 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-75 transition-opacity"
               >
-                <Eye className="w-5 h-5" />
+                <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </div>
 
-            <div className="mt-6 text-left max-w-2xl mx-auto">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+            <div className="mt-4 sm:mt-6 text-left max-w-2xl mx-auto px-2 sm:px-0">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">
                 {currentImage.caption || 'Earth from EPIC'}
               </h3>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-1">
-                    <strong>Image ID:</strong> {currentImage.identifier}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-sm">
+                <div className="space-y-2">
+                  <p className="text-gray-600 dark:text-gray-400">
+                    <strong>Image ID:</strong> <span className="break-all">{currentImage.identifier}</span>
                   </p>
-                  <p className="text-gray-600 dark:text-gray-400 mb-1">
+                  <p className="text-gray-600 dark:text-gray-400">
                     <strong>Date & Time:</strong> {formatDate(currentImage.date)} UTC
                   </p>
                   <p className="text-gray-600 dark:text-gray-400">
@@ -345,11 +346,11 @@ export default function EPICSection() {
                   </p>
                 </div>
                 
-                <div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-1">
+                <div className="space-y-2">
+                  <p className="text-gray-600 dark:text-gray-400">
                     <strong>Version:</strong> {currentImage.version}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-400 mb-1">
+                  <p className="text-gray-600 dark:text-gray-400">
                     <strong>Distance from Earth:</strong> ~{Math.sqrt(
                       Math.pow(currentImage.dscovr_j2000_position.x, 2) +
                       Math.pow(currentImage.dscovr_j2000_position.y, 2) +
@@ -377,13 +378,13 @@ export default function EPICSection() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
+          className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg"
         >
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+          <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-4">
             All Images from {selectedDate || 'Latest Available Date'}
           </h3>
           
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-4">
             {images.map((image, index) => (
               <motion.div
                 key={image.identifier}
@@ -401,7 +402,7 @@ export default function EPICSection() {
                   height={120}
                   className="w-full aspect-square object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 text-center">
+                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-[10px] sm:text-xs p-1 text-center">
                   {new Date(image.date).toLocaleTimeString('en-US', { 
                     hour: '2-digit', 
                     minute: '2-digit',
@@ -410,7 +411,7 @@ export default function EPICSection() {
                 </div>
                 {index === currentIndex && (
                   <div className="absolute inset-0 bg-blue-500 bg-opacity-20 flex items-center justify-center">
-                    <Eye className="w-6 h-6 text-white" />
+                    <Eye className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                   </div>
                 )}
               </motion.div>
@@ -426,19 +427,19 @@ export default function EPICSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-50"
+            className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-2 sm:p-4 z-50"
             onClick={() => setSelectedImage(null)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="relative max-w-6xl max-h-[90vh] overflow-auto"
+              className="relative w-full max-w-4xl max-h-[95vh] overflow-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => setSelectedImage(null)}
-                className="absolute top-4 right-4 z-10 p-2 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-75 transition-opacity"
+                className="absolute top-2 right-2 z-10 p-2 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-75 transition-opacity text-xl leading-none w-8 h-8 flex items-center justify-center"
               >
                 ×
               </button>
@@ -452,11 +453,11 @@ export default function EPICSection() {
                 priority
               />
               
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-4 rounded-b-lg">
-                <h3 className="text-lg font-bold mb-2">
+              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-3 sm:p-4 rounded-b-lg">
+                <h3 className="text-sm sm:text-lg font-bold mb-1 sm:mb-2">
                   {selectedImage.caption || 'Earth from EPIC'}
                 </h3>
-                <p className="text-sm">
+                <p className="text-xs sm:text-sm">
                   {formatDate(selectedImage.date)} UTC - {formatCoordinates(
                     selectedImage.centroid_coordinates.lat, 
                     selectedImage.centroid_coordinates.lon
