@@ -135,24 +135,17 @@ class NasaService {
    */
   async fetchEpicImages(type, params = {}) {
     try {
-      const queryParams = new URLSearchParams({
-        api_key: this.apiKey
-      });
-
-      let url = `${this.baseUrl}/EPIC/api/${type}`;
-      if (params.date) {
-        url += `/date/${params.date}`;
-      }
+      let url;
       
-      // Only add non-date parameters to query string
-      Object.keys(params).forEach(key => {
-        if (key !== 'date' && params[key] !== undefined && params[key] !== null) {
-          queryParams.set(key, params[key]);
-        }
-      });
+      if (params.date) {
+        // For specific date: https://epic.gsfc.nasa.gov/api/natural/date/YYYY-MM-DD
+        url = `https://epic.gsfc.nasa.gov/api/${type}/date/${params.date}`;
+      } else {
+        // For latest images: https://epic.gsfc.nasa.gov/api/natural
+        url = `https://epic.gsfc.nasa.gov/api/${type}`;
+      }
 
-      url += `?${queryParams}`;
-
+      logger.info(`Fetching EPIC images from: ${url}`);
       const response = await this.api.get(url);
       return response.data;
     } catch (error) {
