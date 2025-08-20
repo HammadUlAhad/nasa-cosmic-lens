@@ -85,7 +85,12 @@ export default function MarsRoverPhotos() {
 
   const handleFilterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const filters: any = {};
+    const filters: {
+      sol?: number;
+      earth_date?: string;
+      camera?: string;
+      page?: number;
+    } = {};
     
     if (sol && !isNaN(parseInt(sol))) {
       filters.sol = parseInt(sol);
@@ -128,7 +133,7 @@ export default function MarsRoverPhotos() {
           Mars Rover Photos
         </h2>
         <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-          Explore the Red Planet through the eyes of NASA's rovers. View stunning images captured by various cameras aboard our robotic explorers.
+          Explore the Red Planet through the eyes of NASA&apos;s rovers. View stunning images captured by various cameras aboard our robotic explorers.
         </p>
       </motion.div>
 
