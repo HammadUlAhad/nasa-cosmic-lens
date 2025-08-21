@@ -6,7 +6,12 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'apod.nasa.gov',
-        pathname: '/apod/image/**',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.nasa.gov',
+        pathname: '/**',
       },
       {
         protocol: 'https',

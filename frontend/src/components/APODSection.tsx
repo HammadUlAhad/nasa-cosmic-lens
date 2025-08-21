@@ -22,10 +22,12 @@ export default function APODSection() {
   const [selectedDate, setSelectedDate] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [imageError, setImageError] = useState(false);
 
   const fetchAPOD = async (date?: string) => {
     setLoading(true);
     setError(null);
+    setImageError(false);
     try {
       const data = await getAPOD(date ? { date } : {});
       setApodData(data);
@@ -120,25 +122,33 @@ export default function APODSection() {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
-                  className="relative group"
+                  className="relative"
                 >
-                  <Image
-                    src={apodData.url}
-                    alt={apodData.title}
-                    width={800}
-                    height={600}
-                    className="w-full h-auto rounded-lg shadow-md group-hover:shadow-lg transition-shadow duration-300"
-                    priority
-                  />
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
+                    <img
+                      src={apodData.hdurl || apodData.url}
+                      alt={apodData.title}
+                      className="w-full h-auto rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                      onLoad={(e) => {
+                        console.log('APOD image loaded successfully:', (e.target as HTMLImageElement).src);
+                      }}
+                      onError={(e) => {
+                        console.error('APOD image failed to load:', (e.target as HTMLImageElement).src);
+                        setImageError(true);
+                      }}
+                    />
+                  </div>
+                  
                   {apodData.hdurl && (
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg flex items-center justify-center">
+                    <div className="mt-4">
                       <a
                         href={apodData.hdurl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-gray-900 px-4 py-2 rounded-lg font-medium hover:bg-gray-100"
+                        className="inline-flex items-center space-x-2 text-blue-500 hover:text-blue-600 transition-colors"
                       >
-                        View HD Version
+                        <ExternalLink className="w-4 h-4" />
+                        <span>View HD Version</span>
                       </a>
                     </div>
                   )}
@@ -153,18 +163,6 @@ export default function APODSection() {
                   />
                 </div>
               ) : null}
-              
-              {apodData.hdurl && (
-                <a
-                  href={apodData.hdurl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center space-x-2 text-blue-500 hover:text-blue-600 transition-colors"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  <span>View HD Version</span>
-                </a>
-              )}
             </div>
 
             <div className="space-y-6">
